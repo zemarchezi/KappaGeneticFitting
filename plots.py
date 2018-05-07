@@ -23,7 +23,9 @@ def maxw(x,n, kbt): # FOR NOW MAXWELLIAN DISTRIBUTION
 
 def plot_data(param_kappa, param_maxw,year, month, day, hour, minute, second, save_plot):
 
-    xt,yt = data.flux_values(year, month, day, hour, minute, second)
+    instant = datetime.datetime(year, month, day, hour, minute, second)
+
+    xt,yt = data.flux_values(instant)
 
     index = []
     #removing nan from arrays
@@ -100,4 +102,4 @@ def plot_data(param_kappa, param_maxw,year, month, day, hour, minute, second, sa
         plt.savefig(figname_maxw, format = 'png')
 
 
-plot_data([0.0102483231877,  14.2045384407, 39.4750094769], [0.01116356564, 16.1137178057], 2014, 9, 12, 9, 30, 00, save_plot=True)
+plot_data([0.000951281645059,  119.594140735, 6.2158357804], [0.000774778063291, 144.779204766], 2014, 2, 15, 10, 00, 00, save_plot=True)
