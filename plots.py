@@ -111,4 +111,4 @@ def plot_data(param_kappa, param_maxw,year, month, day, hour, minute, second, sa
         plt.savefig(figureDirectory + figname_maxw, format = 'png')
 
 
-plot_data([0.000951281645059,  119.594140735, 6.2158357804], [0.000774778063291, 144.779204766], 2014, 2, 15, 10, 00, 00, save_plot=True)
+plot_data([0.000847344253, 17.1062790963, 23.4484914086], [0.0109706391221, 16.1386373306], 2014, 9, 12, 9, 30, 00, save_plot=True)
