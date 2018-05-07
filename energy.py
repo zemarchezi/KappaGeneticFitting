@@ -28,7 +28,7 @@ def extract_mageis(files_mageis, flag, dir):
     return mageis
 
 
-def flux_values(year, month, day, hour, minute, second):
+def flux_values(event_instant):
     ####
     # Data directory
     path = os.getcwd()
@@ -38,7 +38,7 @@ def flux_values(year, month, day, hour, minute, second):
 
     dataDownlDir = path + '/data/'
 
-    instantEnergyDistr = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute), int(second))
+    instantEnergyDistr = event_instant
 
     str_temp_mageis = '.*(%04d%02d%02d).*' % (instantEnergyDistr.year, instantEnergyDistr.month, instantEnergyDistr.day)
     date = '%04d%02d%02d' % (instantEnergyDistr.year, instantEnergyDistr.month, instantEnergyDistr.day)

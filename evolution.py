@@ -9,7 +9,7 @@ from dna import *
 
 ## evolve function
 def evolve(functionType,populationSize,threshold,mutationRateBest,
-           numberOfEvolution,x,y,mean):
+           numberOfEvolution,x,y,mean, event_instant):
 
     plt.loglog(x,y,'.')
     population = [0]*populationSize
