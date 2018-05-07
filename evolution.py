@@ -21,7 +21,9 @@ def evolve(functionType,populationSize,threshold,mutationRateBest,
             population[i] = DNA_maxwellian()
 
     population = sorting(population,x,y,mean)
-
+    # create an empty file to write the parameters
+    f = open('param_data_'+functionType+'.txt', 'w')
+    f.close()
     for t in xrange(numberOfEvolution):
         poolSelection = []
         poolSelection = selection(population,threshold)
@@ -34,6 +36,10 @@ def evolve(functionType,populationSize,threshold,mutationRateBest,
         if t%500==0 :
             population[0].calcCorrelation(x,y,mean)
             print t,population[0]
+            # print the paramters in the txt file
+            f = open('param_data_'+functionType+'.txt', 'a')
+            f.write('%d\t%s\n' %(t, population[0]))
+            f.close()
 
             if functionType == "kappa":
                 coef = [1/population[0].genes[0],population[0].genes[1],1/population[0].genes[2]]
