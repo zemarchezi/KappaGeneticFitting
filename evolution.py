@@ -10,7 +10,7 @@ from dna import *
 ## evolve function
 def evolve(functionType,populationSize,threshold,mutationRateBest,
            numberOfEvolution,x,y,mean):
-    
+
     plt.loglog(x,y,'.')
     population = [0]*populationSize
     if functionType == "kappa":
@@ -18,8 +18,8 @@ def evolve(functionType,populationSize,threshold,mutationRateBest,
             population[i] = DNA_kappa()
     elif functionType == "maxwellian":
         for i in xrange(populationSize):
-            population[i] = DNA_maxwellian()    
-        
+            population[i] = DNA_maxwellian()
+
     population = sorting(population,x,y,mean)
 
     for t in xrange(numberOfEvolution):
@@ -27,7 +27,7 @@ def evolve(functionType,populationSize,threshold,mutationRateBest,
         poolSelection = selection(population,threshold)
         population = reproduction(poolSelection,population,threshold,
                                   populationSize,functionType)
-        
+
         mutationRate = (t%100)/100.
         population = mutation(population,mutationRate,mutationRateBest)
         population = sorting(population,x,y,mean)
@@ -42,17 +42,21 @@ def evolve(functionType,populationSize,threshold,mutationRateBest,
                 coef = [1/population[0].genes[0],population[0].genes[1]]
                 y_population,dumm = function(x,coef)
             #fig.clf()
-            plt.loglog(x,y_population) 
+            f = open('data.txt', 'w')
+            for i in range(0,len(y_population)):
+                f.write('%f\t%f\n' %(x[i], y_population[i]))
+            f.close()
+            plt.loglog(x,y_population)
             plt.draw()
             plt.pause(10)
 
     plt.show(block=True)
 
 
-        
+
 
 ####       functions needed        ###############################################
-    
+
 ## add other functions here
 def kappa(x,coef): ## KAPPA DISTRIBUTION FUNCTION
     #size = len(x)
@@ -66,7 +70,7 @@ def kappa(x,coef): ## KAPPA DISTRIBUTION FUNCTION
     func = coef[0]*x[:]*(1+coef[1]*x[:])**(-coef[2])
     mean = sum(func)/len(x)
     return func,mean
-        
+
 def function(x,coef): # FOR NOW MAXWELLIAN DISTRIBUTION
     #size = len(x)
     #func = np.zeros(size)
@@ -79,18 +83,18 @@ def function(x,coef): # FOR NOW MAXWELLIAN DISTRIBUTION
     func = coef[0]*x[:]*np.exp(-coef[1]*x[:])
     mean = sum(func)/len(x)
     return func,mean
-    
+
 def sorting(population,x,objective,mean):
     #calculate fitness function for all agents
     for solution in population:
         solution.calcFitness(x,objective,mean)
-    
-    # sort by fitness in decreasing order 
+
+    # sort by fitness in decreasing order
     newPopulation = sorted(population,key=lambda x: x.fitness, reverse=True)
 
     return newPopulation
 
-    
+
 def selection(population,limit):
     #create a new array with only limit%
     size = len(population)
@@ -98,7 +102,7 @@ def selection(population,limit):
     totalFitnessOfBest = 0
     newAgents = population
     sizePoolRange = [0]*poolLimit
-    
+
     for i in xrange(poolLimit):
         totalFitnessOfBest += newAgents[i].fitness
 
@@ -107,9 +111,9 @@ def selection(population,limit):
         newAgents[i].fitness = newAgents[i].fitness/totalFitnessOfBest
         sizePoolRange[i] = round(newAgents[i].fitness*size)
         sizePool += sizePoolRange[i]
-    
+
     pool = [0]*int(sizePool)
-    index = 0    
+    index = 0
 
     for i in xrange(poolLimit):
         for t in xrange(int(sizePoolRange[i])):
@@ -117,8 +121,8 @@ def selection(population,limit):
             index += 1
 
     return pool
-    
-    
+
+
 def reproduction(pool,population,limit,sizeTotal,functionType):
     #reproduce the rest of the population with new agents
     arrayLimit = int(len(population)*limit)
@@ -143,9 +147,9 @@ def reproduction(pool,population,limit,sizeTotal,functionType):
 
         newPopulation[r] = child
 
-    return newPopulation   
-        
-    
+    return newPopulation
+
+
 def mutation(population,rate,rateBest):
     # mutate the population, with different chances for the best and the rest
     size = len(population)
@@ -155,7 +159,7 @@ def mutation(population,rate,rateBest):
             mutationRate = rateBest
         else:
             mutationRate = rate
-        #chose one gene to mutate    
+        #chose one gene to mutate
         index = random.randrange(0,sizeGenes)
         prob = random.random()
         if prob<mutationRate:
@@ -166,4 +170,3 @@ def mutation(population,rate,rateBest):
     return population
 
 ############################################################################################
-  

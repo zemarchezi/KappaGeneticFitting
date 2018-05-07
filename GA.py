@@ -7,13 +7,13 @@ import os, datetime
 import fnmatch
 
 
-######    main program           #################################################333      
+######    main program           #################################################333
 def main():
     populationSize = 200 # total size of popultion, maybe in the future reduce over time
     threshold = 0.10 # number of top population that will be used for reproduction
     mutationRateBest = 0.001 # chance to mutate de best solution
     numberOfEvolution = 100001 # max number o time steps
-    functionType = "maxwellian" ## only works with kappa and maxwellian
+    functionType = "kappa" ## only works with kappa and maxwellian
 
     year = 2014
     month = 2
@@ -21,7 +21,7 @@ def main():
 
     #13 42 40
     #10 00 00
-    xt,yt = data.flux_values(year, month, day, 10, 0, 0)
+    xt,yt = data.flux_values(year, month, day, 13, 42, 40)
 
     index = []
     #removing nan from arrays
@@ -37,17 +37,17 @@ def main():
     #print x,y
     #
     #  creates data for test
-    #  
-    # kappa is defined here as 
+    #
+    # kappa is defined here as
     # y = A x ( 1 + B x )^-C
-    # 
+    #
     # and maxwellian as
     # y = A x exp(-B x)
     #
     # Use three coeficients for kappa and two for maxwellian
     # if vector of y is given ignore this
     if len(y) == 0:
-        coefs = [100,0.001,12] 
+        coefs = [100,0.001,12]
         if functionType=="kappa":
             y,mean = evo.kappa(x,coefs)
         elif functionType == "maxwellian":
@@ -62,6 +62,6 @@ def main():
     evo.evolve(functionType,populationSize,threshold,mutationRateBest,
           numberOfEvolution,x,y,mean)
 
-    
+
 if __name__ =="__main__":
     main()
