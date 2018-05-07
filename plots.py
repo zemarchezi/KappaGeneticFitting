@@ -73,6 +73,10 @@ def plot_data(param_kappa, param_maxw,year, month, day, hour, minute, second, sa
     plt.xlabel('$E$ $[keV]$')
     plt.title(title_twoFunc)
     plt.ylim([1, 5e5])
+    plt.text(30,90,"$FD - \kappa$", {'color': 'green'})
+    plt.text(30,20,"$\kappa = %.4f$\n$KbT = %.4f$\n$n = %.4f$" %(param_kappa[2], param_kappa[1], param_kappa[0]))
+    plt.text(101,90,"$$FD - m$", {'color': 'orange'})
+    plt.text(101,30,"$KbT = %.4f$\n$n = %.4f$" %(param_maxw[1], param_maxw[0]))
 
 
     if save_plot:
@@ -111,4 +115,10 @@ def plot_data(param_kappa, param_maxw,year, month, day, hour, minute, second, sa
         plt.savefig(figureDirectory + figname_maxw, format = 'png')
 
 
+plot_data([0.000951281645059, 119.594140735, 6.2158357804], [0.000774778063291, 144.779204766], 2014, 2, 15, 10, 00, 00, save_plot=True)
+
+plot_data([0.0179448338354, 15.0431076672, 12.2973723572], [0.00991601182416, 21.9490243764], 2014, 2, 15, 13, 42, 40, save_plot=True)
+#
+plot_data([0.00220313692422, 34.2486718087, 7.57609449706], [0.000409958090321, 69.6181596313], 2014, 9, 12, 13, 00, 00, save_plot=True)
+#
 plot_data([0.000847344253, 17.1062790963, 23.4484914086], [0.0109706391221, 16.1386373306], 2014, 9, 12, 9, 30, 00, save_plot=True)
