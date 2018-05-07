@@ -1,4 +1,4 @@
-# Program using genetic algorithm to fit data with kappa or maxwellian distributions
+# Program using genetic algorithm to fit data with kappa or maxwellian 
 # Created by Marcos Grala
 import numpy as np
 import evolution as evo
@@ -13,16 +13,23 @@ def main():
     threshold = 0.10 # number of top population that will be used for reproduction
     mutationRateBest = 0.001 # chance to mutate de best solution
     numberOfEvolution = 100001 # max number o time steps
-    functionType = "kappa" ## only works with kappa and maxwellian
 
-    year = 2014
-    month = 2
-    day = 15
+    functionType = input("Function ('kappa' or 'maxwellian'): ") ## only works with kappa and maxwellian
+
+    ev_ins = str(input("Event Instant ('yyyymmdd hr:min:sec'): "))
+
+    year = int(ev_ins[0:4])
+    month = int(ev_ins[4:6])
+    day = int(ev_ins[6:8])
+    hour = int(ev_ins[9:11])
+    minute = int(ev_ins[12:14])
+    second = int(ev_ins[15:17])
+
+    event_instant = datetime.datetime(year, month, day, hour, minute, second) ## instant for data selection
 
     #13 42 40
     #10 00 00
-    xt,yt = data.flux_values(year, month, day, 13, 42, 40)
-
+    xt,yt = data.flux_values(event_instant)
     index = []
     #removing nan from arrays
     for i in xrange(len(xt)):
@@ -32,6 +39,9 @@ def main():
         x = np.delete(xt,index)
         y = np.delete(yt,index)
 
+
+    # x = x[0:-1]
+    # y = y[0:-1]
     #x = np.asarray(x)
     #y = np.asarray(y)
     #print x,y
@@ -47,10 +57,11 @@ def main():
     # Use three coeficients for kappa and two for maxwellian
     # if vector of y is given ignore this
     if len(y) == 0:
-        coefs = [100,0.001,12]
         if functionType=="kappa":
+            coefs = [100,0.001,12]
             y,mean = evo.kappa(x,coefs)
         elif functionType == "maxwellian":
+            coefs = [100,0.001]
             print "aqui"
             y,mean = evo.function(x,coefs)
 
@@ -60,7 +71,7 @@ def main():
     ####
     # main evolution of the code
     evo.evolve(functionType,populationSize,threshold,mutationRateBest,
-          numberOfEvolution,x,y,mean)
+          numberOfEvolution,x,y,mean, event_instant)
 
 
 if __name__ =="__main__":
