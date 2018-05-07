@@ -22,7 +22,10 @@ def evolve(functionType,populationSize,threshold,mutationRateBest,
 
     population = sorting(population,x,y,mean)
     # create an empty file to write the parameters
-    f = open('param_data_'+functionType+'.txt', 'w')
+    param_filename = 'param_data_'+functionType+'_%s%s%s_%s%s%s.txt' %(str(event_instant.year),
+                      str(event_instant.month), str(event_instant.day), str(event_instant.hour),
+                      str(event_instant.minute),str(event_instant.second))
+    f = open(param_filename, 'w')
     f.close()
     for t in xrange(numberOfEvolution):
         poolSelection = []
@@ -37,7 +40,7 @@ def evolve(functionType,populationSize,threshold,mutationRateBest,
             population[0].calcCorrelation(x,y,mean)
             print t,population[0]
             # print the paramters in the txt file
-            f = open('param_data_'+functionType+'.txt', 'a')
+            f = open(param_filename, 'a')
             f.write('%d\t%s\n' %(t, population[0]))
             f.close()
 
