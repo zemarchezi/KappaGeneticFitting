@@ -5,6 +5,7 @@ import math
 import matplotlib
 import datetime
 from matplotlib.offsetbox import AnchoredText
+import os
 
 
 def kappa(x,n, kbt, kap): ## KAPPA DISTRIBUTION FUNCTION
@@ -23,6 +24,13 @@ def maxw(x,n, kbt): # FOR NOW MAXWELLIAN DISTRIBUTION
     return func,mean
 
 def plot_data(param_kappa, param_maxw,year, month, day, hour, minute, second, save_plot):
+
+    path = os.getcwd()
+
+    if not os.path.exists(path + '/figs/'):
+        os.makedirs(path + '/figs/')
+
+    figureDirectory = path + '/figs/'
 
     instant = datetime.datetime(year, month, day, hour, minute, second)
 
@@ -68,7 +76,7 @@ def plot_data(param_kappa, param_maxw,year, month, day, hour, minute, second, sa
 
 
     if save_plot:
-        plt.savefig(figname_twoFunc, format = 'png')
+        plt.savefig(figureDirectory + figname_twoFunc, format = 'png')
 
     # kappa
     plt.figure(figsize=(8, 7))
@@ -84,7 +92,7 @@ def plot_data(param_kappa, param_maxw,year, month, day, hour, minute, second, sa
 
 
     if save_plot:
-        plt.savefig(figname_kappa, format = 'png')
+        plt.savefig(figureDirectory + figname_kappa, format = 'png')
 
     # MAxwelliana
     plt.figure(figsize=(8, 7))
@@ -100,7 +108,7 @@ def plot_data(param_kappa, param_maxw,year, month, day, hour, minute, second, sa
 
 
     if save_plot:
-        plt.savefig(figname_maxw, format = 'png')
+        plt.savefig(figureDirectory + figname_maxw, format = 'png')
 
 
 plot_data([0.000951281645059,  119.594140735, 6.2158357804], [0.000774778063291, 144.779204766], 2014, 2, 15, 10, 00, 00, save_plot=True)
